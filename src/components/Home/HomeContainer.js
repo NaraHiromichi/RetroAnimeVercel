@@ -8,7 +8,7 @@ const HomeContainer = () => {
     return (
       <div className="animeContainer">
         <img className="animeImg" src={anime.img} alt={anime.title} />
-        <p className="animeTitle">{cutText(anime.title, 16)}</p>
+        <p className="animeTitle">{cutText(anime.title, 30)}</p>
       </div>
     );
   });

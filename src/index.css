@@ -1,12 +1,31 @@
+[data-theme="dark"] {
+  --wholeBackground: #010400;
+  --searchBackground: #30332e;
+  --phoneAndNav: #010400;
+  --onfocus: #30332e;
+  --primary: #ff0054;
+  --logo: #ff0054;
+  --title: #fbf5f3;
+  --accent: #fbf5f3;
+}
 :root {
-  --brown: #30332e;
-  --pink: #ff0054;
+  --wholeBackground: #fbf5f3;
+  --searchBackground: #fbf5f3;
+  --phoneAndNav: #ff0054;
+  --onfocus: #fbf5f3;
+  --primary: #ff0054;
+  --logo: #fbf5f3;
+  --title: #010400;
+  --accent: #fbf5f3;
 }
 * {
   box-sizing: border-box;
 }
 html {
   scrollbar-width: none;
+}
+.App {
+  background-color: var(--wholeBackground);
 }
 body::-webkit-scrollbar {
   display: none;
@@ -21,8 +40,7 @@ body {
   font-family: "Eczar", serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #010400;
-  color: white;
+  color: var(--accent);
   overflow-y: scroll;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -30,16 +48,18 @@ body {
 .mainContainer {
   display: inline-block;
   width: 75%;
-  padding: 20px 60px;
   margin: 0;
 }
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: var(--phoneAndNav);
+  padding-left: 60px;
+  width: 100vw;
 }
 .LOGO {
-  color: var(--pink);
+  color: var(--logo);
   font-size: 2.5em;
   font-weight: 500;
 }
@@ -54,9 +74,11 @@ nav {
 /* ActiveTitleSections */
 
 .activeTitle {
-  border-left: 8px solid var(--pink);
+  border-left: 8px solid var(--primary);
   padding-left: 20px;
   font-size: 1.3em;
+  margin-left: 60px;
+  color: var(--title);
 }
 
 /* HomeSections */
@@ -65,6 +87,8 @@ nav {
   grid-template-columns: repeat(5, 1fr);
   grid-auto-rows: auto;
   column-gap: 10px;
+  padding-left: 60px;
+  padding-right: 60px;
 }
 .animeContainer {
   max-width: 200px;
@@ -80,6 +104,7 @@ nav {
 }
 .animeTitle {
   font-size: 16px;
+  color: var(--title);
 }
 
 /* Phone Section */
@@ -89,16 +114,30 @@ nav {
   position: fixed;
   right: 0;
   top: 0;
-  border-left: 3px solid var(--pink);
-  border-bottom: 5px solid var(--pink);
+  border-left: 3px solid var(--primary);
+  border-bottom: 5px solid var(--primary);
   display: inline-block;
   border-radius: 32px;
   padding-bottom: 3em;
   overflow: hidden;
+  background-color: var(--phoneAndNav);
+}
+.lightMode {
+  width: 25%;
+  height: 100vh;
+  position: fixed;
+  right: 0;
+  top: 0;
+  border-left: 3px solid var(--primary);
+  border-bottom: 5px solid var(--primary);
+  display: inline-block;
+  padding-bottom: 3em;
+  overflow: hidden;
+  background-color: var(--phoneAndNav);
 }
 
 .searchBar {
-  background-color: var(--brown);
+  background-color: var(--searchBackground);
   width: 90%;
   height: 60px;
   max-width: 380px;
@@ -107,7 +146,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  margin-top: 4em;
+  margin-top: 7em;
 }
 .searchInput {
   background-color: transparent;
@@ -116,7 +155,7 @@ nav {
   border-radius: 30px;
   border: none;
   outline: none;
-  color: white;
+  color: var(--accent);
   font-weight: bold;
   font-size: medium;
 }
@@ -141,22 +180,51 @@ nav {
 .genresList {
   display: block;
   font-size: 1em;
-  border-left: 6px solid var(--pink);
+  border-left: 6px solid var(--primary);
   height: 20px;
   margin-bottom: 2em;
   padding-left: 13px;
+  color: var(--accent);
 }
 
-/* justForCool */
-.justForCool {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  background-color: var(--pink);
+/* Navigate Icon  */
+
+.NavIconListContainer {
   position: fixed;
-  top: -80px;
-  right: -60px;
-  z-index: -1;
+  top: 0;
+  right: -200px;
+  width: 270px;
+  height: 80px;
+  background-color: var(--accent);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 14px;
+  transition: ease-in-out 0.5s;
+}
+.NaviDark {
+  position: fixed;
+  top: 0;
+  right: -200px;
+  width: 270px;
+  height: 80px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 14px;
+  transition: ease-in-out 0.5s;
+  background-color: var(--primary);
+}
+.NavIconListContainer:hover {
+  right: 0;
+  background-color: var(--onfocus);
+}
+.NavIconListContainer:hover > .Menu {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+.NavIconListContainer img:hover {
+  cursor: pointer;
 }
 
 /* Media quaries start here */
@@ -173,9 +241,6 @@ nav {
   }
 }
 @media only screen and (max-width: 1200px) {
-  body {
-    font-size: 13px;
-  }
   .animeListContainer {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -187,16 +252,22 @@ nav {
   }
 }
 @media only screen and (max-width: 1010px) {
-  body {
-    font-size: 11px;
+  .animeListContainer {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 @media only screen and (max-width: 900px) {
-  body {
-    font-size: 9px;
-  }
   .animeListContainer {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .mainContainer {
+    width: 60%;
+  }
+  .phoneContainer {
+    width: 40%;
+  }
+  .NavIconListContainer {
+    height: 60px;
   }
 }
 @media only screen and (max-width: 800px) {
@@ -210,7 +281,7 @@ nav {
     width: 100%;
     height: 100vh;
     position: inherit;
-    border: 1px solid var(--pink);
+    border: 1px solid var(--primary);
   }
   .mainContainer {
     width: 100%;
@@ -220,6 +291,9 @@ nav {
   }
   .logo {
     font-size: 2em;
+  }
+  .NavIconListContainer {
+    height: 80px;
   }
 }
 @media only screen and (max-width: 610px) {
@@ -239,10 +313,13 @@ nav {
   }
 }
 @media only screen and (max-width: 420px) {
-  body {
+  /* body {
     font-size: 12px;
-  }
-  .LOGO {
+  } */
+  /* .LOGO {
+    font-size: 1em;
+  } */
+  .activeTitle {
     font-size: 1em;
   }
   .navListContainer > li {
