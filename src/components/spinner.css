@@ -1,0 +1,29 @@
+[spinner-theme="dark"] {
+  --loading: #ff0054;
+  --loadingBackground: #30332e;
+}
+:root {
+  --loading: #010400;
+  --loadingBackground: #f3f3f3;
+}
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.spinner-container {
+  height: 80vh;
+  margin: 2em auto;
+  width: 100%;
+}
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 10px solid var(--loadingBackground); /* Light grey */
+  border-top: 10px solid var(--loading); /* Black */
+  border-radius: 50%;
+  animation: spinner 1.5s linear infinite;
+}

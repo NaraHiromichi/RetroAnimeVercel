@@ -1,17 +1,15 @@
-import DataContext from "../../DataContext";
 import { useContext } from "react";
-import LoadingSpinner from "../LoadingSpinner";
 import { Link } from "react-router-dom";
-
-const HomeContainer = () => {
-  const { animeRecomanded, cutText, isLoading } = useContext(DataContext);
-  console.log(isLoading);
+import DataContext from "../../DataContext";
+import LoadingSpinner from "../LoadingSpinner";
+const SearchedItem = () => {
+  const { searchedAnime, cutText, isLoading } = useContext(DataContext);
   return (
     <div className="animeListContainer">
-      {isLoading ? (
+      {searchedAnime === undefined ? (
         <LoadingSpinner />
       ) : (
-        animeRecomanded.data.map((anime) => {
+        searchedAnime.data.map((anime) => {
           return (
             <Link to={`/${anime.mal_id}`} className="animeContainer">
               <img
@@ -28,4 +26,4 @@ const HomeContainer = () => {
   );
 };
 
-export default HomeContainer;
+export default SearchedItem;

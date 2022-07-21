@@ -1,8 +1,10 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import DataContext from "../../DataContext";
 
 const NavToast = () => {
   const { switchTheme, theme } = useContext(DataContext);
+  const navigate = useNavigate();
   return (
     <div
       className={
@@ -18,6 +20,7 @@ const NavToast = () => {
         }
       />
       <img
+        onClick={() => navigate("/")}
         src={
           theme === "dark" ? require("./Home.png") : require("./HomeBlack.png")
         }

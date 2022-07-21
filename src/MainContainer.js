@@ -1,13 +1,13 @@
-import ActiveTitle from "../../ActiveTitle";
-import NavBar from "../NavBar";
-import HomeContainer from "./HomeContainer";
+import { Outlet } from "react-router-dom";
+import ActiveTitle from "./ActiveTitle";
+import NavBar from "./components/NavBar";
 
 const MainContainer = () => {
   return (
     <div className="mainContainer">
       <NavBar />
       <ActiveTitle />
-      <HomeContainer />
+      <Outlet />
     </div>
   );
 };

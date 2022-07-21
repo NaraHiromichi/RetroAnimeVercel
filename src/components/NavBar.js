@@ -1,7 +1,10 @@
+import { Link } from "react-router-dom";
 const NavBar = () => {
   return (
     <nav>
-      <h3 className="LOGO">Old School Anime MM</h3>
+      <Link style={{ textDecoration: "none" }} to="/">
+        <h3 className="LOGO">Old School Anime MM</h3>
+      </Link>
     </nav>
   );
 };
