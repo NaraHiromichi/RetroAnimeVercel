@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DataContext from "../../DataContext";
 
@@ -11,19 +11,31 @@ const NavToast = () => {
   } = useContext(DataContext);
   const navigate = useNavigate();
   const [toggleNavToastOnPhone, setToggleNavToastOnPhone] = useState(false);
+  let screenSize = window.innerWidth;
+  let classNameToToggleToast;
+  if (screenSize > 1400) {
+    classNameToToggleToast = `NavIconListContainer`;
+  } else if (screenSize < 1400) {
+    classNameToToggleToast = `NavIconListContainerForPhone`;
+  }
+
   return (
     <div
+      style={{ right: toggleNavToastOnPhone === true && `0px` }}
       className={
         theme === "dark"
-          ? `NavIconListContainer NaviDark ${
-              toggleNavToastOnPhone && "onFocusForPhone"
-            }`
-          : `NavIconListContainer ${toggleNavToastOnPhone && "onFocusForPhone"}`
+          ? `${classNameToToggleToast} NaviDark `
+          : `${classNameToToggleToast} `
       }
     >
       <img
         className="Menu"
-        onClick={() => setToggleNavToastOnPhone((prev) => !prev)}
+        onClick={() => {
+          if (screenSize > 1400) {
+            return;
+          }
+          setToggleNavToastOnPhone((prev) => !prev);
+        }}
         src={
           theme === "dark" ? require("./Menu.png") : require("./MenuBlack.png")
         }
@@ -31,6 +43,7 @@ const NavToast = () => {
       <img
         onClick={() => {
           if (window.innerWidth < 801) {
+            setToggleNavToastOnPhone(false);
             handleHomeScrollForPhone();
           }
           navigate("/Retroanime");
@@ -40,7 +53,10 @@ const NavToast = () => {
         }
       />
       <img
-        onClick={() => switchTheme()}
+        onClick={() => {
+          setToggleNavToastOnPhone(false);
+          switchTheme();
+        }}
         src={
           theme === "dark"
             ? require("./Theme.png")
@@ -49,6 +65,7 @@ const NavToast = () => {
       />
       <img
         onClick={() => {
+          setToggleNavToastOnPhone(false);
           handleSearchScrollForPhone();
         }}
         src={

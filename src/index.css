@@ -214,6 +214,19 @@ nav {
   border-radius: 14px;
   transition: ease-in-out 0.5s;
 }
+.NavIconListContainerForPhone {
+  position: fixed;
+  top: 0;
+  right: -200px;
+  width: 270px;
+  height: 80px;
+  background-color: var(--accent);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 14px;
+  transition: ease-in-out 0.5s;
+}
 .NaviDark {
   position: fixed;
   top: 0;
@@ -240,6 +253,11 @@ nav {
 }
 .onFocusForPhone {
   right: 0;
+  height: 80px;
+}
+.offFocusForPhone {
+  right: -200px;
+  height: 80px;
 }
 /* Info section */
 
@@ -346,6 +364,9 @@ nav {
   .NavIconListContainer {
     height: 100px;
   }
+  /* .NavIconListContainer:not(.nohover):hover {
+    height: 100px;
+  } */
 }
 @media only screen and (max-width: 420px) {
   /* body {
