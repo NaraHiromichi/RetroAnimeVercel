@@ -4,10 +4,13 @@ import GenresList from "./GenresList";
 import { useContext } from "react";
 import DataContext from "../../DataContext";
 const PhoneContainer = () => {
-  const { theme } = useContext(DataContext);
+  const { theme, ref } = useContext(DataContext);
   return (
     <GernesProvider>
-      <div className={theme === "dark" ? `phoneContainer` : `lightMode`}>
+      <div
+        ref={ref}
+        className={theme === "dark" ? `phoneContainer` : `lightMode`}
+      >
         <SearchBar />
         <GenresList />
       </div>

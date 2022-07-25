@@ -3,7 +3,8 @@ import DataContext from "../../DataContext";
 import { Link } from "react-router-dom";
 
 const SearchBar = () => {
-  const { setDataToSearch } = useContext(DataContext);
+  const { setDataToSearch, setPageNumber, handleHomeScrollForPhone } =
+    useContext(DataContext);
   const [inputData, setInputData] = useState("");
   const updateInputText = (e) => {
     setInputData(e.target.value);
@@ -12,6 +13,8 @@ const SearchBar = () => {
     if (e.key === "Enter") {
       setDataToSearch(inputData);
       setInputData("");
+      setPageNumber(1);
+      handleHomeScrollForPhone();
     }
   };
   return (

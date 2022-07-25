@@ -1,12 +1,23 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import DataContext from "../../DataContext";
 import GenresContext from "./GenresContext";
+import ListItem from "./ListItem";
 
 const GenresList = () => {
-  const { genresList } = useContext(GenresContext);
-  const listItems = genresList.map((item) => {
-    return <span className="genresList">{item}</span>;
-  });
-  return <div className="genresListContainer">{listItems}</div>;
+  const { genresList, genresError, genersLoaded, setGenersLoaded } =
+    useContext(GenresContext);
+
+  return (
+    <div className="genresListContainer">
+      {genresList &&
+        genresList.map((item, index) => {
+          return <ListItem key={index} listData={item} />;
+        })}
+      {genersLoaded === false && (
+        <p>{genresError}, Please Wait 5sec and refresh again</p>
+      )}
+    </div>
+  );
 };
 
 export default GenresList;

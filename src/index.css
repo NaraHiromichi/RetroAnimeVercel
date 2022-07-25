@@ -92,6 +92,7 @@ nav {
   padding-left: 60px;
   padding-right: 60px;
 }
+
 .animeContainer {
   max-width: 200px;
   min-width: 100%;
@@ -121,7 +122,6 @@ nav {
   display: inline-block;
   border-radius: 32px;
   padding-bottom: 3em;
-  overflow: hidden;
   background-color: var(--phoneAndNav);
 }
 .lightMode {
@@ -171,25 +171,34 @@ nav {
 .genresListContainer {
   width: 90%;
   margin: 5em auto;
-  height: 80%;
+  height: 72%;
   padding-left: 0.2em;
   overflow-y: scroll;
-  scrollbar-width: none; /* Firefox */
+  /* scrollbar-width: none; Firefox */
   -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
 .genresListContainer::-webkit-scrollbar {
   display: none;
 }
 .genresList {
-  display: block;
+  display: flex;
+  align-items: center;
   font-size: 1em;
   border-left: 6px solid var(--primary);
   height: 20px;
   margin-bottom: 2em;
   padding-left: 13px;
-  color: var(--accent);
+  width: 30%;
+  min-width: 15em;
 }
-
+.gernesListLink {
+  color: var(--accent);
+  text-decoration: none;
+}
+.closeGenres {
+  align-self: center;
+  cursor: pointer;
+}
 /* Navigate Icon  */
 
 .NavIconListContainer {
@@ -229,28 +238,20 @@ nav {
 .NavIconListContainer img:hover {
   cursor: pointer;
 }
+.onFocusForPhone {
+  right: 0;
+}
 /* Info section */
 
-.infoAnimesContainer .titleInfo {
-  grid-column: 1 / 6;
-  font-size: 24px;
-  color: var(--title);
-}
-.infoAnimesContainer .imageInfo {
-  grid-column: 1 / 3;
-  min-height: 530px;
-}
-.infoAnimesContainer .textInfoContainer {
-  grid-template-rows: repeat(5, 1fr);
-  color: var(--title);
-  grid-column: 3 / 6;
+/* NavigatePagesBar */
+
+.NavigatePagesBar {
+  padding-left: 60px;
+  padding-right: 60px;
+  margin-bottom: 2em;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.songLink {
-  text-decoration: none;
-  color: var(--primary);
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* Media quaries start here */
@@ -296,7 +297,7 @@ nav {
     width: 40%;
   }
   .NavIconListContainer {
-    height: 60px;
+    height: 80px;
   }
 }
 @media only screen and (max-width: 800px) {
@@ -310,6 +311,7 @@ nav {
   .lightMode {
     width: 100%;
     height: 100vh;
+    margin-bottom: 0;
     position: inherit;
     border: 1px solid var(--primary);
   }
@@ -341,6 +343,9 @@ nav {
     margin-left: 2em;
     font-size: 0.8em;
   }
+  .NavIconListContainer {
+    height: 100px;
+  }
 }
 @media only screen and (max-width: 420px) {
   /* body {
@@ -351,10 +356,5 @@ nav {
   } */
   .activeTitle {
     font-size: 1em;
-  }
-  .navListContainer > li {
-    display: inline-block;
-    margin-left: 1em;
-    font-size: 0.7em;
   }
 }

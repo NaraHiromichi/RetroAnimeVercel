@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import useLocalStorage from "use-local-storage";
 
 const DataContext = createContext({});
@@ -14,11 +14,17 @@ export const DataProvider = ({ children }) => {
   const [Error, setError] = useState(true);
   const [animeRecomanded, setAnimeRecomanded] = useState();
   const [searchedAnime, setSearchedAnime] = useState();
+  const [searchedGenersAnime, setSearchedGenresAnime] = useState();
   const [dataToSearch, setDataToSearch] = useState("");
+  const [selectedGernesNum, setSelectedGernesNum] = useState("");
+  const [pageNumber, setPageNumber] = useState(1);
+  const [needToChangeRightImage, setNeedToChangeRightImage] = useState("false");
+  const ref = useRef(null);
+  const homeRef = useRef(null);
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get("https://api.jikan.moe/v4/seasons/now")
+      .get(`https://api.jikan.moe/v4/seasons/now?page=${pageNumber}`)
       .then((res) => {
         setIsLoading(true);
         setAnimeRecomanded(res.data);
@@ -27,10 +33,12 @@ export const DataProvider = ({ children }) => {
       .catch((err) => {
         setError("Unable to Fetch from API");
       });
-  }, []);
+  }, [pageNumber]);
   useEffect(() => {
     axios
-      .get(`https://api.jikan.moe/v4/anime?q=${dataToSearch}`)
+      .get(
+        `https://api.jikan.moe/v4/anime?q=${dataToSearch}&page=${pageNumber}`
+      )
       .then((res) => {
         setIsLoading(true);
         setSearchedAnime(res.data);
@@ -39,7 +47,21 @@ export const DataProvider = ({ children }) => {
       .catch((err) => {
         setError("Unable to Fetch from API");
       });
-  }, [dataToSearch]);
+  }, [dataToSearch, pageNumber]);
+  useEffect(() => {
+    let url = `https://api.jikan.moe/v4/anime?page=${pageNumber}&genres=${selectedGernesNum.toString()}`;
+    axios
+      .get(url)
+      .then((res) => {
+        setIsLoading(true);
+        setSearchedGenresAnime(res.data);
+        console.log("rendered", url);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setError("Unable to Fetch from API");
+      });
+  }, [selectedGernesNum, pageNumber]);
 
   const switchTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -52,7 +74,12 @@ export const DataProvider = ({ children }) => {
     }
     return modifiedText;
   };
-
+  const handleSearchScrollForPhone = () => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  const handleHomeScrollForPhone = () => {
+    homeRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <DataContext.Provider
       value={{
@@ -64,6 +91,18 @@ export const DataProvider = ({ children }) => {
         dataToSearch,
         setDataToSearch,
         searchedAnime,
+        selectedGernesNum,
+        setSelectedGernesNum,
+        searchedGenersAnime,
+        setSearchedGenresAnime,
+        pageNumber,
+        setPageNumber,
+        needToChangeRightImage,
+        setNeedToChangeRightImage,
+        handleSearchScrollForPhone,
+        ref,
+        homeRef,
+        handleHomeScrollForPhone,
       }}
     >
       {children}

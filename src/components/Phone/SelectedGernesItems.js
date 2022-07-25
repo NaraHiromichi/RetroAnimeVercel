@@ -2,31 +2,33 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import DataContext from "../../DataContext";
 import LoadingSpinner from "../LoadingSpinner";
-
-const SearchedItem = () => {
+const SelectedGernesItems = () => {
   const {
-    searchedAnime,
-    cutText,
-    isLoading,
-    pageNumber,
+    searchedGenersAnime,
+    setSearchedGenresAnime,
     setNeedToChangeRightImage,
+    cutText,
+    pageNumber,
+    isLoading,
   } = useContext(DataContext);
-  console.log("searchAni", searchedAnime);
   if (
-    searchedAnime !== undefined &&
-    searchedAnime.data.length !== 0 &&
+    searchedGenersAnime !== undefined &&
+    searchedGenersAnime.data.length !== 0 &&
     pageNumber > 1
   ) {
     setNeedToChangeRightImage("nor");
-  } else if (searchedAnime === undefined || searchedAnime.data.length === 0) {
+  } else if (
+    searchedGenersAnime === undefined ||
+    searchedGenersAnime.data.length === 0
+  ) {
     setNeedToChangeRightImage("true");
   }
   return (
     <div className="animeListContainer">
-      {searchedAnime === undefined ? (
+      {searchedGenersAnime === undefined ? (
         <LoadingSpinner />
       ) : (
-        searchedAnime.data.map((anime) => {
+        searchedGenersAnime.data.map((anime) => {
           return (
             <Link to={`/${anime.mal_id}`} className="animeContainer">
               <img
@@ -39,11 +41,10 @@ const SearchedItem = () => {
           );
         })
       )}
-      {searchedAnime !== undefined && searchedAnime.data.length === 0 && (
-        <p>No result here</p>
-      )}
+      {searchedGenersAnime !== undefined &&
+        searchedGenersAnime.data.length === 0 && <p>No result here</p>}
     </div>
   );
 };
 
-export default SearchedItem;
+export default SelectedGernesItems;

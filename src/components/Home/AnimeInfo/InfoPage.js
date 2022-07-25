@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../LoadingSpinner";
+import "../../../InfoPage.css";
 
 const InfoPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,7 +23,7 @@ const InfoPage = () => {
   }, []);
 
   return (
-    <div className="animeListContainer infoAnimesContainer">
+    <div className="infoAnimesContainer">
       {isLoading && <LoadingSpinner />}
       {!isLoading && (
         <>

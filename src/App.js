@@ -9,6 +9,8 @@ import ActiveTitle from "./ActiveTitle";
 import SearchedItem from "./components/Home/SearchedItem";
 import HomeContainer from "./components/Home/HomeContainer";
 import InfoPage from "./components/Home/AnimeInfo/InfoPage";
+import SelectedGernesItems from "./components/Phone/SelectedGernesItems";
+import NavigatePageBar from "./components/Home/NavigatePageBar";
 function App() {
   const { theme } = useContext(DataContext);
   console.log(theme);
@@ -24,6 +26,7 @@ function App() {
                   <NavBar />
                   <ActiveTitle />
                   <HomeContainer />
+                  <NavigatePageBar />
                 </div>
                 <PhoneContainer />
                 <NavToast />
@@ -52,6 +55,22 @@ function App() {
                   <NavBar />
                   <ActiveTitle />
                   <SearchedItem />
+                  <NavigatePageBar />
+                </div>
+                <PhoneContainer />
+                <NavToast />
+              </>
+            }
+          />
+          <Route
+            path="gernes"
+            element={
+              <>
+                <div className="mainContainer">
+                  <NavBar />
+                  <ActiveTitle />
+                  <SelectedGernesItems />
+                  <NavigatePageBar />
                 </div>
                 <PhoneContainer />
                 <NavToast />
