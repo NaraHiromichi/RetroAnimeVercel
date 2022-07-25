@@ -33,7 +33,7 @@ const NavToast = () => {
           if (window.innerWidth < 801) {
             handleHomeScrollForPhone();
           }
-          navigate("/");
+          navigate("/Retroanime");
         }}
         src={
           theme === "dark" ? require("./Home.png") : require("./HomeBlack.png")

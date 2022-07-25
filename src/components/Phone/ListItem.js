@@ -16,7 +16,7 @@ const ListItem = ({ listData }) => {
       <div className="genresList">
         <Link
           className="gernesListLink"
-          to="/gernes"
+          to="/Retroanime/gernes"
           onClick={() => {
             setPageNumber(1);
             setSelected((prev) => !prev);

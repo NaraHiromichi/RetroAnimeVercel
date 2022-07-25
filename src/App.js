@@ -19,7 +19,7 @@ function App() {
       <Router>
         <Routes>
           <Route
-            path="/"
+            path="/Retroanime"
             element={
               <>
                 <div className="mainContainer">
@@ -34,7 +34,7 @@ function App() {
             }
           />
           <Route
-            path=":MAL_ID"
+            path="/Retroanime/:MAL_ID"
             element={
               <>
                 <div className="mainContainer">
@@ -48,7 +48,7 @@ function App() {
             }
           />
           <Route
-            path="search"
+            path="/Retroanime/search"
             element={
               <>
                 <div className="mainContainer">
@@ -63,7 +63,7 @@ function App() {
             }
           />
           <Route
-            path="gernes"
+            path="/Retroanime/gernes"
             element={
               <>
                 <div className="mainContainer">

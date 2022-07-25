@@ -28,7 +28,7 @@ const SearchedItem = () => {
       ) : (
         searchedAnime.data.map((anime) => {
           return (
-            <Link to={`/${anime.mal_id}`} className="animeContainer">
+            <Link to={`/Retroanime/${anime.mal_id}`} className="animeContainer">
               <img
                 className="animeImg"
                 src={anime.images.jpg.large_image_url}
