@@ -174,7 +174,7 @@ nav {
   height: 72%;
   padding-left: 0.2em;
   overflow-y: scroll;
-  /* scrollbar-width: none; Firefox */
+  scrollbar-width: none;
   -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
 .genresListContainer::-webkit-scrollbar {
