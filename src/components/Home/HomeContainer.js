@@ -35,7 +35,7 @@ const HomeContainer = () => {
         animeRecomanded.data.map((anime) => {
           return (
             <Link
-              to={`/Retroanime/${anime.mal_id}`}
+              to={`/${anime.mal_id}`}
               className="animeContainer"
               key={anime.mal_id}
             >

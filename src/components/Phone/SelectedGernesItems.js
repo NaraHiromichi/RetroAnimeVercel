@@ -30,7 +30,7 @@ const SelectedGernesItems = () => {
       ) : (
         searchedGenersAnime.data.map((anime) => {
           return (
-            <Link to={`/Retroanime/${anime.mal_id}`} className="animeContainer">
+            <Link to={`/${anime.mal_id}`} className="animeContainer">
               <img
                 className="animeImg"
                 src={anime.images.jpg.large_image_url}
