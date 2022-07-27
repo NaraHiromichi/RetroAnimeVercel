@@ -46,7 +46,7 @@ const NavToast = () => {
             setToggleNavToastOnPhone(false);
             handleHomeScrollForPhone();
           }
-          navigate("/Retroanime");
+          navigate("/");
         }}
         src={
           theme === "dark" ? require("./Home.png") : require("./HomeBlack.png")

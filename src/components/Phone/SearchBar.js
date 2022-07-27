@@ -18,7 +18,7 @@ const SearchBar = () => {
     }
   };
   return (
-    <Link to="/Retroanime/search" className="searchBar">
+    <Link to="/search" className="searchBar">
       <input
         className="searchInput"
         type="text"

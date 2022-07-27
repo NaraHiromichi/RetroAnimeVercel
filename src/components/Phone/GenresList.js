@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import DataContext from "../../DataContext";
 import GenresContext from "./GenresContext";
 import ListItem from "./ListItem";
 

@@ -6,10 +6,6 @@ import DataContext from "./DataContext";
 
 import NavBar from "./components/NavBar";
 import ActiveTitle from "./ActiveTitle";
-import SearchedItem from "./components/Home/SearchedItem";
-import HomeContainer from "./components/Home/HomeContainer";
-import InfoPage from "./components/Home/AnimeInfo/InfoPage";
-import SelectedGernesItems from "./components/Phone/SelectedGernesItems";
 import NavigatePageBar from "./components/Home/NavigatePageBar";
 import { Outlet } from "react-router-dom";
 function App() {
