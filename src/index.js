@@ -12,7 +12,7 @@ import SelectedGernesItems from "./components/Phone/SelectedGernesItems";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Router>
+  <Router basename="/Retroanime">
     <React.StrictMode>
       <DataProvider>
         <Routes>
