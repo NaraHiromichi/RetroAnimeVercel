@@ -16,7 +16,7 @@ root.render(
     <React.StrictMode>
       <DataProvider>
         <Routes>
-          <Route path="/Retroanime" element={<App />}>
+          <Route path="/" element={<App />}>
             <Route index element={<HomeContainer />} />
             <Route path="search" element={<SearchedItem />} />
             <Route path=":MAL_ID" element={<InfoPage />} />
