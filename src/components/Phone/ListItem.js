@@ -1,35 +1,39 @@
-import { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import DataContext from "../../DataContext";
+import { pageReset } from "../../redux-features/pages";
+import { addGenre, removeGenre } from "../../redux-features/selectedGenres";
 
-const ListItem = ({ listData }) => {
+let ListItem = ({ listData }) => {
+  const dispatch = useDispatch();
   const [selected, setSelected] = useState(false);
-  const {
-    setSelectedGernesNum,
-    setPageNumber,
-    theme,
-    handleHomeScrollForPhone,
-  } = useContext(DataContext);
 
+  useEffect(() => {
+    if (selected) {
+      dispatch(addGenre(listData.mal_id));
+    } else if (!selected) {
+      dispatch(removeGenre(listData.mal_id));
+    }
+  }, [selected]);
   return (
     <>
       <div className="genresList">
         <Link
           className="gernesListLink"
-          to="/gernes"
+          to="/genres"
+          style={{
+            textDecoration: selected ? `underline` : `none`,
+            fontWeight: selected ? `bolder` : `normal`,
+          }}
           onClick={() => {
-            setPageNumber(1);
+            dispatch(pageReset("genres"));
             setSelected((prev) => !prev);
-            setSelectedGernesNum((prev) => {
-              console.log("inside link");
-              return [...prev, listData.mal_id];
-            });
-            handleHomeScrollForPhone();
+            window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         >
           {listData.name}
         </Link>
-        <img
+        {/* <img
           onClick={() => {
             setPageNumber(1);
             setSelectedGernesNum((prevArray) => {
@@ -47,10 +51,10 @@ const ListItem = ({ listData }) => {
             ? "../NavToast/close.png"
             : "../NavToast/closeWhite.png")}
           alt={listData}
-        />
+        /> */}
       </div>
     </>
   );
 };
-
+ListItem = React.memo(ListItem);
 export default ListItem;

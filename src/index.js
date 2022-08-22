@@ -4,26 +4,27 @@ import "./index.css";
 import App from "./App";
 import { DataProvider } from "./DataContext";
 import HomeContainer from "./components/Home/HomeContainer";
-import NavBar from "./components/NavBar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SearchedItem from "./components/Home/SearchedItem";
 import InfoPage from "./components/Home/AnimeInfo/InfoPage";
 import SelectedGernesItems from "./components/Phone/SelectedGernesItems";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Router basename="/Retroanime">
-    <React.StrictMode>
+  <Provider store={store}>
+    <Router basename="/Retroanime">
       <DataProvider>
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={<HomeContainer />} />
             <Route path="search" element={<SearchedItem />} />
             <Route path=":MAL_ID" element={<InfoPage />} />
-            <Route path="gernes" element={<SelectedGernesItems />} />
+            <Route path="genres" element={<SelectedGernesItems />} />
           </Route>
         </Routes>
       </DataProvider>
-    </React.StrictMode>
-  </Router>
+    </Router>
+  </Provider>
 );

@@ -1,24 +1,41 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DataContext from "../../DataContext";
+import { useDispatch, useSelector } from "react-redux";
+import { switchTheme } from "../../redux-features/themeSlice";
 
 const NavToast = () => {
-  const {
-    switchTheme,
-    theme,
-    handleSearchScrollForPhone,
-    handleHomeScrollForPhone,
-  } = useContext(DataContext);
+  const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme);
+  const { ref } = useContext(DataContext);
+  const modeToChange = () => {
+    if (theme === "light") {
+      return "dark";
+    }
+    return "light";
+  };
   const navigate = useNavigate();
   const [toggleNavToastOnPhone, setToggleNavToastOnPhone] = useState(false);
-  let screenSize = window.innerWidth;
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function handleWindowWidth() {
+      setWindowWidth(window.innerWidth);
+    }
+    window.addEventListener("resize", handleWindowWidth);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowWidth);
+    };
+  }, []);
   let classNameToToggleToast;
-  if (screenSize > 1400) {
+  if (windowWidth > 1400) {
     classNameToToggleToast = `NavIconListContainer`;
-  } else if (screenSize < 1400) {
+  } else if (windowWidth < 1400) {
     classNameToToggleToast = `NavIconListContainerForPhone`;
   }
-
+  const handleSearchScrollForPhone = () => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <div
       style={{ right: toggleNavToastOnPhone === true && `0px` }}
@@ -29,9 +46,10 @@ const NavToast = () => {
       }
     >
       <img
+        alt="Menu"
         className="Menu"
         onClick={() => {
-          if (screenSize > 1400) {
+          if (windowWidth > 1400) {
             return;
           }
           setToggleNavToastOnPhone((prev) => !prev);
@@ -41,10 +59,11 @@ const NavToast = () => {
         }
       />
       <img
+        alt="Home"
         onClick={() => {
           if (window.innerWidth < 801) {
             setToggleNavToastOnPhone(false);
-            handleHomeScrollForPhone();
+            window.scrollTo({ top: 0, behavior: "smooth" });
           }
           navigate("/");
         }}
@@ -53,9 +72,10 @@ const NavToast = () => {
         }
       />
       <img
+        alt="Theme"
         onClick={() => {
           setToggleNavToastOnPhone(false);
-          switchTheme();
+          dispatch(switchTheme(modeToChange()));
         }}
         src={
           theme === "dark"
@@ -64,6 +84,7 @@ const NavToast = () => {
         }
       />
       <img
+        alt="search"
         onClick={() => {
           setToggleNavToastOnPhone(false);
           handleSearchScrollForPhone();

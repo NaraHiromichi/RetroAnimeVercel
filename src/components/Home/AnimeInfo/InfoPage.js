@@ -3,96 +3,81 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../LoadingSpinner";
 import "../../../InfoPage.css";
+import { useGetAnimeInfoQuery } from "../../../api/AnimeInfo";
 
 const InfoPage = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [Error, setError] = useState(true);
-  const [AnimeInfo, setAnimeInfo] = useState(true);
   const { MAL_ID } = useParams();
-  useEffect(() => {
-    axios
-      .get(`https://api.jikan.moe/v4/anime/${MAL_ID}/full`)
-      .then((res) => {
-        setIsLoading(true);
-        setAnimeInfo(res.data.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setError("Unable to Fetch from API");
-      });
-  }, []);
-
-  return (
-    <div className="infoAnimesContainer">
-      {isLoading && <LoadingSpinner />}
-      {!isLoading && (
-        <>
-          <h3 className="titleInfo">{AnimeInfo.title}</h3>
-          <img
-            className="imageInfo"
-            src={AnimeInfo.images.jpg.large_image_url}
-          />
-          <div className="textInfoContainer">
-            <p>Status: {AnimeInfo.status}</p>
-            <p>Rating: {AnimeInfo.rating}</p>
-            {AnimeInfo.season !== null &&
-              AnimeInfo.year !== null &&
-              AnimeInfo.season.length !== 0 &&
-              AnimeInfo.year.length !== 0 && (
-                <p>Season: {`${AnimeInfo.season} ${AnimeInfo.year}`}</p>
-              )}
+  const { data, isSuccess, isLoading, isError } = useGetAnimeInfoQuery(MAL_ID);
+  if (isLoading) return <LoadingSpinner />;
+  else if (isSuccess) {
+    const AnimeInfo = data.data;
+    return (
+      <div className="infoAnimesContainer">
+        <h3 className="titleInfo">{AnimeInfo.title}</h3>
+        <img className="imageInfo" src={AnimeInfo.images.jpg.large_image_url} />
+        <div className="textInfoContainer">
+          <p>English_Name: {AnimeInfo.title_english}</p>
+          <p>Status: {AnimeInfo.status}</p>
+          <p>Rating: {AnimeInfo.rating}</p>
+          {AnimeInfo.season !== null &&
+            AnimeInfo.year !== null &&
+            AnimeInfo.season.length !== 0 &&
+            AnimeInfo.year.length !== 0 && (
+              <p>Season: {`${AnimeInfo.season} ${AnimeInfo.year}`}</p>
+            )}
+          <p>
+            Genres:
+            {AnimeInfo.genres.map((item, index) => {
+              return index === 0 ? ` ${item.name}` : `, ${item.name}`;
+            })}
+          </p>
+          {AnimeInfo.themes.length !== 0 && (
             <p>
-              Genres:
-              {AnimeInfo.genres.map((item, index) => {
-                return index === 0 ? ` ${item.name}` : `, ${item.name}`;
+              Themes:
+              {AnimeInfo.themes.map((item, index) => {
+                return index === 0 ? item.name : `, ${item.name}`;
               })}
             </p>
-            {AnimeInfo.themes.length !== 0 && (
+          )}
+          {AnimeInfo.theme.openings !== null &&
+            AnimeInfo.theme.openings.length !== 0 && (
               <p>
-                Themes:
-                {AnimeInfo.themes.map((item, index) => {
-                  return index === 0 ? item.name : `, ${item.name}`;
-                })}
+                Openings :
+                {AnimeInfo.theme.openings.map((song) => (
+                  <a
+                    className="songLink"
+                    target="_blank"
+                    href={`https://www.youtube.com/results?search_query=${song}`}
+                  >
+                    {` ${song}`}
+                    <br />
+                  </a>
+                ))}
               </p>
             )}
-            {AnimeInfo.theme.openings !== null &&
-              AnimeInfo.theme.openings.length !== 0 && (
-                <p>
-                  Openings :
-                  {AnimeInfo.theme.openings.map((song) => (
-                    <a
-                      className="songLink"
-                      target="_blank"
-                      href={`https://www.youtube.com/results?search_query=${song}`}
-                    >
-                      {` ${song}`}
-                      <br />
-                    </a>
-                  ))}
-                </p>
-              )}
-            {AnimeInfo.theme.endings !== null &&
-              AnimeInfo.theme.endings.length !== 0 && (
-                <p>
-                  Endings :
-                  {AnimeInfo.theme.endings.map((song) => (
-                    <a
-                      className="songLink"
-                      style={{ textDecoration: "none" }}
-                      target="_blank"
-                      href={`https://www.youtube.com/results?search_query=${song}`}
-                    >
-                      {` ${song}`}
-                      <br />
-                    </a>
-                  ))}
-                </p>
-              )}
-          </div>
-        </>
-      )}
-    </div>
-  );
+          {AnimeInfo.theme.endings !== null &&
+            AnimeInfo.theme.endings.length !== 0 && (
+              <p>
+                Endings :
+                {AnimeInfo.theme.endings.map((song) => (
+                  <a
+                    className="songLink"
+                    style={{ textDecoration: "none" }}
+                    target="_blank"
+                    href={`https://www.youtube.com/results?search_query=${song}`}
+                  >
+                    {` ${song}`}
+                    <br />
+                  </a>
+                ))}
+              </p>
+            )}
+        </div>
+      </div>
+    );
+  } else if (isError) {
+    return <p>There's an error</p>;
+  }
 };
 
 export default InfoPage;

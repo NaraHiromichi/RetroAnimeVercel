@@ -1,60 +1,43 @@
 import DataContext from "../../DataContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import LoadingSpinner from "../LoadingSpinner";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useGetAnimeByRecomandedQuery } from "../../api/RecomandedApi";
+import HomeAnimeExcerpt from "./HomeAnimeExcerpt";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  handleHasNextPage,
+  selectHomePageNumber,
+} from "../../redux-features/pages";
 
 const HomeContainer = () => {
-  const {
-    animeRecomanded,
-    cutText,
-    isLoading,
-    pageNumber,
-    needToChangeRightImage,
-    setNeedToChangeRightImage,
-    handleHomeScrollForPhone,
-  } = useContext(DataContext);
-  console.log(isLoading);
-  if (
-    animeRecomanded !== undefined &&
-    animeRecomanded.data.length !== 0 &&
-    pageNumber > 1
-  ) {
-    setNeedToChangeRightImage("nor");
-  } else if (
-    animeRecomanded === undefined ||
-    animeRecomanded.data.length === 0
-  ) {
-    setNeedToChangeRightImage("true");
-  }
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const pageNumber = useSelector((state) => selectHomePageNumber(state));
 
-  return (
-    <div className="animeListContainer">
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        animeRecomanded.data.map((anime) => {
-          return (
-            <Link
-              to={`/${anime.mal_id}`}
-              className="animeContainer"
-              key={anime.mal_id}
-            >
-              <img
-                className="animeImg"
-                src={anime.images.jpg.large_image_url}
-                alt={anime.title}
-                onClick={() => handleHomeScrollForPhone()}
-              />
-              <p className="animeTitle">{cutText(anime.title, 30)}</p>
-            </Link>
-          );
-        })
-      )}
-      {animeRecomanded !== undefined && animeRecomanded.data.length === 0 && (
-        <p>No result here</p>
-      )}
-    </div>
-  );
+  const {
+    data: recomandedAnime,
+    isLoading,
+    isSuccess,
+    isError,
+  } = useGetAnimeByRecomandedQuery(pageNumber);
+
+  if (isLoading) return <LoadingSpinner />;
+  else if (isSuccess) {
+    dispatch(
+      handleHasNextPage({
+        nextPage: recomandedAnime.pagination.has_next_page,
+        routePath: location.pathname,
+      })
+    );
+    return (
+      <div className="animeListContainer">
+        {recomandedAnime.data.map((anime) => (
+          <HomeAnimeExcerpt key={anime.mal_id} anime={anime} />
+        ))}
+      </div>
+    );
+  } else if (isError) return <p>There's an error</p>;
 };
 
 export default HomeContainer;

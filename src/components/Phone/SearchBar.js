@@ -1,20 +1,21 @@
-import { useContext, useState } from "react";
-import DataContext from "../../DataContext";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { updateSearchData } from "../../redux-features/searchSlice";
+import { pageReset } from "../../redux-features/pages";
 
 const SearchBar = () => {
-  const { setDataToSearch, setPageNumber, handleHomeScrollForPhone } =
-    useContext(DataContext);
+  const dispatch = useDispatch();
   const [inputData, setInputData] = useState("");
   const updateInputText = (e) => {
     setInputData(e.target.value);
   };
   const handleSubmit = (e) => {
     if (e.key === "Enter") {
-      setDataToSearch(inputData);
+      dispatch(pageReset("search"));
+      dispatch(updateSearchData(inputData));
       setInputData("");
-      setPageNumber(1);
-      handleHomeScrollForPhone();
+      window.scrollTo(0, 0);
     }
   };
   return (
@@ -30,6 +31,7 @@ const SearchBar = () => {
         className="searchIcon"
         src={require("./searchIcon.png")}
         alt="searchIcon"
+        onClick={(event) => handleSubmit(event)}
       />
     </Link>
   );

@@ -1,22 +1,29 @@
-import { useContext, useState } from "react";
-import GenresContext from "./GenresContext";
+import { useGetGenresListQuery } from "../../api/GenresList";
+import LoadingSpinner from "../LoadingSpinner";
 import ListItem from "./ListItem";
 
 const GenresList = () => {
-  const { genresList, genresError, genersLoaded, setGenersLoaded } =
-    useContext(GenresContext);
+  const {
+    data: genresList,
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useGetGenresListQuery();
 
-  return (
-    <div className="genresListContainer">
-      {genresList &&
-        genresList.map((item, index) => {
+  if (isLoading) {
+    return <LoadingSpinner />;
+  } else if (isSuccess) {
+    return (
+      <div className="genresListContainer">
+        {genresList.data.map((item, index) => {
           return <ListItem key={index} listData={item} />;
         })}
-      {genersLoaded === false && (
-        <p>{genresError}, Please Wait 5sec and refresh again</p>
-      )}
-    </div>
-  );
+      </div>
+    );
+  } else if (isError) {
+    return <p>{error?.error}, Please Wait 5sec and refresh again</p>;
+  }
 };
 
 export default GenresList;

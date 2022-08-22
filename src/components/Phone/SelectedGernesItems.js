@@ -1,50 +1,52 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-import DataContext from "../../DataContext";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { useGetGenresResultQuery } from "../../api/GenresResult";
+import {
+  handleHasNextPage,
+  selectGenresPageNumber,
+} from "../../redux-features/pages";
 import LoadingSpinner from "../LoadingSpinner";
 const SelectedGernesItems = () => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const pageNumber = useSelector(selectGenresPageNumber);
+  const selectedGenresNum = useSelector((state) => state.selectedGenres);
   const {
-    searchedGenersAnime,
-    setSearchedGenresAnime,
-    setNeedToChangeRightImage,
-    cutText,
-    pageNumber,
+    data: searchedGenersAnime,
     isLoading,
-  } = useContext(DataContext);
-  if (
-    searchedGenersAnime !== undefined &&
-    searchedGenersAnime.data.length !== 0 &&
-    pageNumber > 1
-  ) {
-    setNeedToChangeRightImage("nor");
-  } else if (
-    searchedGenersAnime === undefined ||
-    searchedGenersAnime.data.length === 0
-  ) {
-    setNeedToChangeRightImage("true");
+    isSuccess,
+    isError,
+  } = useGetGenresResultQuery({
+    pageNumber,
+    selectedGenresNum,
+  });
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  } else if (isSuccess) {
+    dispatch(
+      handleHasNextPage({
+        nextPage: searchedGenersAnime.pagination.has_next_page,
+        routePath: location.pathname,
+      })
+    );
+    return (
+      <div className="animeListContainer">
+        {searchedGenersAnime.data.map((anime) => (
+          <Link to={`/${anime.mal_id}`} className="animeContainer">
+            <img
+              className="animeImg"
+              src={anime.images.jpg.large_image_url}
+              alt={anime.title}
+            />
+            <p className="animeTitle">{anime.title.substring(0, 20) + "..."}</p>
+          </Link>
+        ))}
+      </div>
+    );
+  } else if (isError) {
+    return <p>There's an error</p>;
   }
-  return (
-    <div className="animeListContainer">
-      {searchedGenersAnime === undefined ? (
-        <LoadingSpinner />
-      ) : (
-        searchedGenersAnime.data.map((anime) => {
-          return (
-            <Link to={`/${anime.mal_id}`} className="animeContainer">
-              <img
-                className="animeImg"
-                src={anime.images.jpg.large_image_url}
-                alt={anime.title}
-              />
-              <p className="animeTitle">{cutText(anime.title, 30)}</p>
-            </Link>
-          );
-        })
-      )}
-      {searchedGenersAnime !== undefined &&
-        searchedGenersAnime.data.length === 0 && <p>No result here</p>}
-    </div>
-  );
 };
 
 export default SelectedGernesItems;

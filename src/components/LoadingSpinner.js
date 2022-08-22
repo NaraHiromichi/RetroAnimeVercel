@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import DataContext from "../DataContext";
 import "./spinner.css";
 
@@ -12,7 +13,7 @@ const LoadingSpinner = () => {
       clearTimeout(timer);
     };
   });
-  const { theme } = useContext(DataContext);
+  const theme = useSelector((state) => state.theme);
   return (
     <>
       <div className="spinner-container" spinner-theme={theme}>
