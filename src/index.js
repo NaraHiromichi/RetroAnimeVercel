@@ -14,7 +14,7 @@ import { store } from "./app/store";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <Router basename="/Retroanime">
+    <Router basename="/">
       <DataProvider>
         <Routes>
           <Route path="/" element={<App />}>
